@@ -8,20 +8,58 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-# Import MNIST data
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
+from os import listdir
+from os.path import isfile, join
+
+
+def read_csv_oneDirectory(listFile,labelDirectory):
+
+    filename_queue = tf.train.string_input_producer([listFile])
+
+    reader = tf.TextLineReader()
+    key, value = reader.read(filename_queue)
+
+    # Default values, in case of empty columns. Also specifies the type of the
+    # decoded result.
+    record_defaults = [[1], [1], [1], [1]]
+    col1, col2, col3, col4 = tf.decode_csv(
+        value, record_defaults=record_defaults)
+
+    features = tf.stack([col2, col3, col4])
+
+    with tf.Session() as sess:
+        # Start populating the filename queue.
+        coord = tf.train.Coordinator()
+        threads = tf.train.start_queue_runners(coord=coord)
+
+        for i in range(1200):
+            # Retrieve a single instance:
+            example, label = sess.run([features, labelDirectory])
+
+    coord.request_stop()
+    coord.join(threads)
+
+def read_all_csv(pathname):
+    directories = [f for f in listdir(pathname)]
+    i = 0
+    for directory in directories:
+        files = [f for f in listdir(directory) if isfile(join(directory, f))]
+        read_csv_oneDirectory(files,i)
+        i=i+1
+
+    print("read_all_csv done")
+
 
 # Parameters
-learning_rate = 0.001
-training_iters = 200000
-batch_size = 128
+learning_rate = 0.01
+training_iters = 250
+batch_size = 500
 display_step = 10
 
 # Network Parameters
-n_input = 784 # MNIST data input (img shape: 28*28)
-n_classes = 10 # MNIST total classes (0-9 digits)
-dropout = 0.75 # Dropout, probability to keep units
+n_input = 500*3*1 # data input
+n_classes = 9 # MNIST total classes (0-9 digits)
+dropout = 0.5 # Dropout, probability to keep units
 
 # tf Graph input
 x = tf.placeholder(tf.float32, [None, n_input])
