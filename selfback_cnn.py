@@ -7,6 +7,7 @@ Author: Maxime Golfier
 from __future__ import print_function
 
 import tensorflow as tf
+import numpy as np
 import csv
 
 #PART FOR DATA
@@ -47,6 +48,40 @@ def read_csv(numlines,path):
     coord.request_stop()
     coord.join(threads)
 
+def read_one_csv (name):
+    data = np.genfromtxt(name, delimiter = ',',skip_header=1)
+    return data
+
+def read_all_csv(directory):
+
+    for i in range(1,6):
+        name = directory+str(i)+'.csv'
+        print(name)
+        data = read_one_csv(name)
+        print(data)
+        #return data,i
+
+        tensor = tf.stack(data)
+        print(tensor)
+        tf.InteractiveSession()
+        evaluated_tensor = tensor.eval()
+
+        #x_train=np.array([i[1::] for i in data])
+        #y_train,y_train_onehot = convertOneHot(data)
+
+
+def input_pipeline(filenames, batch_size, read_threads, num_epochs=None):
+    filename_queue = tf.train.string_input_producer(
+        filenames, num_epochs=num_epochs, shuffle=True)
+    example_list = [read_all_csv(filename_queue)
+                    for _ in range(read_threads)]
+    min_after_dequeue = 10000
+    capacity = min_after_dequeue + 3 * batch_size
+    example_batch, label_batch = tf.train.shuffle_batch_join(
+        example_list, batch_size=batch_size, capacity=capacity,
+        min_after_dequeue=min_after_dequeue)
+    return example_batch, label_batch
+
 def one_hot_encoding():
     all_activities = [0,1,2,3,4,5]
     onehot = {}
@@ -57,6 +92,27 @@ def one_hot_encoding():
     for i, activities in enumerate(all_activities):
         # %0*d gives us the second parameter's number of spaces as padding.
         print("%s,%0*d" % (activities, activities_count, 10 ** i))
+
+def convertOneHot(data):
+    y=np.array([int(i[0]) for i in data])
+    y_onehot=[0]*len(y)
+    for i,j in enumerate(y):
+        y_onehot[i]=[0]*(y.max() + 1)
+        y_onehot[i][j]=1
+    return (y,y_onehot)
+
+def create_datasets_train(namefile):
+    data = np.genfromtxt(namefile,delimiter=',')  # Training data
+    x_train=np.array([ i[1::] for i in data])
+    y_train,y_train_onehot = convertOneHot(data)
+    return x_train,y_train,y_train_onehot
+
+def create_datasets_test(namefile):
+    test_data = np.genfromtxt(namefile,delimiter=',')  # Test data
+    x_test=np.array([ i[1::] for i in test_data])
+    y_test,y_test_onehot = convertOneHot(test_data)
+    return x_test,y_test,y_test_onehot
+
 
 # PART FOR TUNING
 def conv2d(x, W, b, strides=1):
@@ -69,7 +125,6 @@ def maxpool2d(x, k=2):
     # MaxPool2D wrapper
     return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],
                           padding='SAME')
-
 
 # PART FOR CREATION OF MODEL
 def conv_net(x, weights, biases, dropout):
@@ -101,11 +156,12 @@ def conv_net(x, weights, biases, dropout):
 
 
 ##################MAIN##################
-data = "data/allDataUltraLight.csv"
-numlines = count_lines(data)
-print(numlines," is the number of line on this csv")
-read_csv(numlines,data)
-print("read_csv is done")
+#data = "data/allDataUltraLight.csv"
+#numlines = count_lines(data)
+#print(numlines," is the number of line on this csv")
+#read_csv(numlines,data)
+#print("read_csv is done")
+read_all_csv('data_light/')
 
 
 # Parameters
