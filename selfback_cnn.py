@@ -5,18 +5,26 @@ Author: Maxime Golfier
 '''
 
 from __future__ import print_function
+from math import *
 
 import tensorflow as tf
 import numpy as np
+import pandas as pd
+import copy
 import csv
 
-#PART FOR DATA
-def count_lines(path):
-    with open(path,"r") as f:
-        reader = csv.reader(f,delimiter = ",")
-        data = list(reader)
-        row_count = len(data)
-    return row_count
+####PART FOR DATA####
+
+def create_data(directory):
+    list = []
+    column_names = ['x-axis', 'y-axis', 'z-axis','activity']
+    for i in range(1,6):
+        name = directory+str(i)+'.csv'
+        data = pd.read_csv(name, header=1, names=column_names)
+        list.append(data)
+    print(list)
+    print('create_data is done')
+    return list
 
 def read_csv(numlines,path):
 
@@ -27,9 +35,9 @@ def read_csv(numlines,path):
     key, value = reader.read(filename_queue)
 
     record_defaults = [tf.constant([0], dtype=tf.float32),    # Column 1
-                        tf.constant([0], dtype=tf.float32),    # Column 2
-                        tf.constant([0], dtype=tf.float32),    # Column 3
-                        tf.constant([], dtype=tf.int32)]  # Column 4
+                       tf.constant([0], dtype=tf.float32),    # Column 2
+                       tf.constant([0], dtype=tf.float32),    # Column 3
+                       tf.constant([], dtype=tf.int32)]  # Column 4
 
     col1, col2, col3, col4 = tf.decode_csv(value, record_defaults=record_defaults)
 
@@ -48,160 +56,120 @@ def read_csv(numlines,path):
     coord.request_stop()
     coord.join(threads)
 
-def read_one_csv (name):
-    data = np.genfromtxt(name, delimiter = ',',skip_header=1)
+def count_lines(path):
+    with open(path,"r") as f:
+        reader = csv.reader(f,delimiter = ",")
+        data = list(reader)
+        row_count = len(data)
+    return row_count
+
+def read_one_csv(name):
+    data = np.genfromtxt(name, delimiter=',', skip_header=1)
     return data
 
-def read_all_csv(directory):
+def one_hot_encoded(class_numbers, num_classes=None):
+    """
+    Generate the One-Hot encoded class-labels from an array of integers.
+    For example, if class_number=2 and num_classes=4 then
+    the one-hot encoded label is the float array: [0. 0. 1. 0.]
+    :param class_numbers:
+        Array of integers with class-numbers.
+        Assume the integers are from zero to num_classes-1 inclusive.
+    :param num_classes:
+        Number of classes. If None then use max(class_numbers)+1.
+    :return:
+        2-dim array of shape: [len(class_numbers), num_classes]
+    """
 
+    # Find the number of classes if None is provided.
+    # Assumes the lowest class-number is zero.
+    if num_classes is None:
+        num_classes = np.max(class_numbers) + 1
+
+    return np.eye(num_classes, dtype=float)[class_numbers]
+
+def read_all_csv(directory,X,Y):
+    all_data = []
+    all_label = []
+    all_lines_per_file = []
     for i in range(1,6):
         name = directory+str(i)+'.csv'
-        print(name)
         data = read_one_csv(name)
-        print(data)
-        #return data,i
+        label = one_hot_encoded(i-1,6)
+        line = count_lines(name)
+        all_data.append(data)
+        all_label.append(label)
+        all_lines_per_file.append(line)
+    #stuff = [[all_data[j], all_label[j]] for j in range(len(all_data))]
+    x, y = format_data_label(all_data,all_label,all_lines_per_file)
+    stuff = {X: x, Y: y}
+    print('read_all_csv is done :)')
+    return stuff
 
-        tensor = tf.stack(data)
-        print(tensor)
-        tf.InteractiveSession()
-        evaluated_tensor = tensor.eval()
+def format_data_label(all_data, all_label,all_line):
+    x = []
+    y = []
+    for i in range(5):
+        nb_sections = all_line[i]/500
+        nb_sections = int(floor(nb_sections))
+        nb_elmts_to_delete = all_line[i]%500
+        tab = all_data[i][:nb_elmts_to_delete-1]
+        newSection = np.array_split(tab, nb_sections)
+        for j in range(nb_sections):
+            label = copy.copy(all_label[i])
+            x.append(newSection)
+            y.append(label)
 
-        #x_train=np.array([i[1::] for i in data])
-        #y_train,y_train_onehot = convertOneHot(data)
-
-
-def input_pipeline(filenames, batch_size, read_threads, num_epochs=None):
-    filename_queue = tf.train.string_input_producer(
-        filenames, num_epochs=num_epochs, shuffle=True)
-    example_list = [read_all_csv(filename_queue)
-                    for _ in range(read_threads)]
-    min_after_dequeue = 10000
-    capacity = min_after_dequeue + 3 * batch_size
-    example_batch, label_batch = tf.train.shuffle_batch_join(
-        example_list, batch_size=batch_size, capacity=capacity,
-        min_after_dequeue=min_after_dequeue)
-    return example_batch, label_batch
-
-def one_hot_encoding():
-    all_activities = [0,1,2,3,4,5]
-    onehot = {}
-    # Target number of activities types (target classes) is 3 ^
-    activities_count = len(all_activities)
-
-    # Print out each one-hot encoded string for 6 activities.
-    for i, activities in enumerate(all_activities):
-        # %0*d gives us the second parameter's number of spaces as padding.
-        print("%s,%0*d" % (activities, activities_count, 10 ** i))
-
-def convertOneHot(data):
-    y=np.array([int(i[0]) for i in data])
-    y_onehot=[0]*len(y)
-    for i,j in enumerate(y):
-        y_onehot[i]=[0]*(y.max() + 1)
-        y_onehot[i][j]=1
-    return (y,y_onehot)
-
-def create_datasets_train(namefile):
-    data = np.genfromtxt(namefile,delimiter=',')  # Training data
-    x_train=np.array([ i[1::] for i in data])
-    y_train,y_train_onehot = convertOneHot(data)
-    return x_train,y_train,y_train_onehot
-
-def create_datasets_test(namefile):
-    test_data = np.genfromtxt(namefile,delimiter=',')  # Test data
-    x_test=np.array([ i[1::] for i in test_data])
-    y_test,y_test_onehot = convertOneHot(test_data)
-    return x_test,y_test,y_test_onehot
+    return x, y
 
 
-# PART FOR TUNING
-def conv2d(x, W, b, strides=1):
-    # Conv2D wrapper, with bias and relu activation
-    x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='SAME')
-    x = tf.nn.bias_add(x, b)
-    return tf.nn.relu(x)
+def placeholder_input(num_input, num_class):
+    x = tf.placeholder(tf.float32, [500, num_input])
+    y = tf.placeholder(tf.float32, [None, num_class])
+    return x,y
 
-def maxpool2d(x, k=2):
-    # MaxPool2D wrapper
-    return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],
-                          padding='SAME')
-
-# PART FOR CREATION OF MODEL
-def conv_net(x, weights, biases, dropout):
-    # Reshape input picture
-    x = tf.reshape(x, shape=[-1, 28, 28, 1])
-
-    # Convolution Layer
-    conv1 = conv2d(x, weights['wc1'], biases['bc1'])
-    # Max Pooling (down-sampling)
-    conv1 = maxpool2d(conv1, k=2)
-
-    # Convolution Layer
-    conv2 = conv2d(conv1, weights['wc2'], biases['bc2'])
-    # Max Pooling (down-sampling)
-    conv2 = maxpool2d(conv2, k=2)
-
-    # Fully connected layer
-    # Reshape conv2 output to fit fully connected layer input
-    fc1 = tf.reshape(conv2, [-1, weights['wd1'].get_shape().as_list()[0]])
-    fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
-    fc1 = tf.nn.relu(fc1)
-    # Apply Dropout
-    fc1 = tf.nn.dropout(fc1, dropout)
-
-    # Output, class prediction
-    out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
-    return out
-
-
+####PART FOR MODEL####
+def create_net(x, weights, biases):
+    # Hidden layer with RELU activation
+    layer_1 = tf.add(tf.matmul(x, weights['h1']), biases['b1'])
+    layer_1 = tf.nn.relu(layer_1)
+    # Hidden layer with RELU activation
+    layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
+    layer_2 = tf.nn.relu(layer_2)
+    # Output layer with linear activation
+    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
+    return out_layer
 
 ##################MAIN##################
-#data = "data/allDataUltraLight.csv"
-#numlines = count_lines(data)
-#print(numlines," is the number of line on this csv")
-#read_csv(numlines,data)
-#print("read_csv is done")
-read_all_csv('data_light/')
-
 
 # Parameters
 learning_rate = 0.01
 training_iters = 250
 batch_size = 500
-display_step = 10
-
-# Network Parameters
-n_input = 500*3*1 # data input
-n_classes = 9 # data total classes (0-9 digits)
+training_epochs = 100
+n_input = 3 # data input
+n_classes = 6 # data total classes (0-9 digits)
 dropout = 0.5 # Dropout, probability to keep units
-
-# tf Graph input
-x = tf.placeholder(tf.float32, [None, n_input])
-y = tf.placeholder(tf.float32, [None, n_classes])
-keep_prob = tf.placeholder(tf.float32) #dropout (keep probability)
-
-
-# Store layers weight & bias
+n_hidden_1 = 20
+n_hidden_2 = 20
 weights = {
-    # 5x5 conv, 1 input, 32 outputs
-    'wc1': tf.Variable(tf.random_normal([5, 5, 1, 32])),
-    # 5x5 conv, 32 inputs, 64 outputs
-    'wc2': tf.Variable(tf.random_normal([5, 5, 32, 64])),
-    # fully connected, 7*7*64 inputs, 1024 outputs
-    'wd1': tf.Variable(tf.random_normal([7*7*64, 1024])),
-    # 1024 inputs, 10 outputs (class prediction)
-    'out': tf.Variable(tf.random_normal([1024, n_classes]))
+    'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
+    'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
+    'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]))
 }
-
 biases = {
-    'bc1': tf.Variable(tf.random_normal([32])),
-    'bc2': tf.Variable(tf.random_normal([64])),
-    'bd1': tf.Variable(tf.random_normal([1024])),
+    'b1': tf.Variable(tf.random_normal([n_hidden_1])),
+    'b2': tf.Variable(tf.random_normal([n_hidden_2])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 
+
+x, y = placeholder_input(n_input,n_classes)
+feed_dict = read_all_csv('data_light/', x, y)
+#print(feed_dict)
+
 # Construct model
-pred = conv_net(x, weights, biases, keep_prob)
+pred = create_net(x, weights, biases)
 
 # Define loss and optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
@@ -214,5 +182,17 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 # Initializing the variables
 init = tf.global_variables_initializer()
 
+# Launch the graph
+with tf.Session() as sess:
 
+    sess.run(init)
+
+    # Training cycle
+    for step in range(training_epochs):
+        _, c = sess.run([optimizer, cost], feed_dict=feed_dict)
+
+    print("Optimization Finished!")
+
+    # Test model
+    correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 
