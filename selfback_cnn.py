@@ -160,13 +160,11 @@ def create_datasets (data, lines,length=500):
 
 ####PART FOR MODEL####
 def conv2d(x, W, b, strides=1):
-    # Conv2D wrapper, with bias and relu activation
     x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='SAME')
     x = tf.nn.bias_add(x, b)
     return tf.nn.relu(x)
 
 def maxpool2d(x, k=2):
-    # MaxPool2D wrapper
     return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],
                           padding='SAME')
 
@@ -176,25 +174,46 @@ def conv_net(x, weights, biases):
     # Convolution Layer
     conv1 = conv2d(x, weights['wc1'], biases['bc1'])
     # Max Pooling (down-sampling)
-    conv1 = maxpool2d(conv1, k=2)
+    conv1 = maxpool2d(conv1)
 
     # Convolution Layer
     conv2 = conv2d(conv1, weights['wc2'], biases['bc2'])
     # Max Pooling (down-sampling)
-    conv2 = maxpool2d(conv2, k=2)
+    conv2 = maxpool2d(conv2)
 
-    # Fully connected layer
-    # Reshape conv2 output to fit fully connected layer input
-    fc1 = tf.reshape(conv2, [-1, weights['wd1'].get_shape().as_list()[0]])
+    # Convolution Layer
+    conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
+    # Max Pooling (down-sampling)
+    conv3 = maxpool2d(conv3)
+
+    # Convolution Layer
+    conv4 = conv2d(conv3, weights['wc4'], biases['bc4'])
+    # Max Pooling (down-sampling)
+    conv4 = maxpool2d(conv4)
+
+    # Convolution Layer
+    conv5 = conv2d(conv4, weights['wc5'], biases['bc5'])
+    # Max Pooling (down-sampling)
+    conv5 = maxpool2d(conv5)
+
+    # Fully connected layer 1
+    # Reshape conv5 output to fit fully connected layer input
+    fc1 = tf.reshape(conv5, [-1, weights['wd1'].get_shape().as_list()[0]])
     fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
-    fc1 = tf.nn.relu(fc1)
+    fc1 = tf.nn.tanh(fc1)
+
+    # Fully connected layer 2 with activation tanh
+    fc2 = tf.add(tf.matmul(fc1, weights['wd2']), biases['bd2'])
+    fc2 = tf.nn.tanh(fc2)
+    fc2 = tf.nn.dropout(fc2, keep_prob=0.5)
 
     # Output, class prediction
-    out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
+    out = tf.add(tf.matmul(fc2, weights['out']), biases['out'])
     return out
 
 ##################MAIN##################
 # Parameters
+file = 'data/allDataLight.csv'
 learning_rate = 0.01
 batch_size = 500
 training_epochs = 10
@@ -206,27 +225,38 @@ n_classes = 6
 weights = {
     # 1x10 conv, 3 input, 150 outputs
     'wc1': tf.Variable(tf.random_normal([1, 10, 3, 150])),
-    # 1x10 conv, 3 input, 150 outputs
-    'wc2': tf.Variable(tf.random_normal([1, 10, 150, 40])),
+    # 1x10 conv, 150 input, 100 outputs
+    'wc2': tf.Variable(tf.random_normal([1, 10, 150, 100])),
+    # 1x10 conv, 100 input, 80 outputs
+    'wc3': tf.Variable(tf.random_normal([1, 10, 100, 80])),
+    # 1x10 conv, 80 input, 60 outputs
+    'wc4': tf.Variable(tf.random_normal([1, 10, 80, 60])),
+    # 1x10 conv, 60 input, 40 outputs
+    'wc5': tf.Variable(tf.random_normal([1, 10, 60, 40])),
     # fully connected,  inputs, 900 outputs
-    'wd1': tf.Variable(tf.random_normal([125*1*40, 300])),
+    'wd1': tf.Variable(tf.random_normal([128, 900])),
+    # fully connected,  inputs, 300 outputs
+    'wd2': tf.Variable(tf.random_normal([900, 300])),
     # 300 inputs, 6 outputs (class prediction)
     'out': tf.Variable(tf.random_normal([300, n_classes]))
 }
 biases = {
     'bc1': tf.Variable(tf.random_normal([150])),
-    'bc2': tf.Variable(tf.random_normal([40])),
-    'bd1': tf.Variable(tf.random_normal([300])),
+    'bc2': tf.Variable(tf.random_normal([100])),
+    'bc3': tf.Variable(tf.random_normal([80])),
+    'bc4': tf.Variable(tf.random_normal([60])),
+    'bc5': tf.Variable(tf.random_normal([40])),
+    'bd1': tf.Variable(tf.random_normal([900])),
+    'bd2': tf.Variable(tf.random_normal([300])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 X, Y = placeholder_input(n_height, n_width, n_channels, n_classes)
 
-file = 'data/allDataLight.csv'
 dataset = read_data(file)
 numlines = count_lines(file)
 
 #Create datasets from the file
-data, labels = create_datasets(dataset,numlines)
+data, labels = create_datasets(dataset, numlines)
 
 #Reshape data
 labels = np.asarray(pd.get_dummies(labels), dtype=np.int8)
@@ -244,10 +274,9 @@ test_y = labels[~train_test_split]
 # Construct model
 pred = conv_net(X, weights, biases)
 
-# Launch the graph
 # Define loss and optimizer
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=Y))
-optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=Y))
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
 
 # Evaluate model
 correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(Y, 1))
@@ -259,8 +288,15 @@ init = tf.global_variables_initializer()
 # Launch the graph
 with tf.Session() as sess:
     sess.run(init)
-    
+
     # Keep training until reach max iterations
     for step in range(training_epochs):
-        sess.run(optimizer, feed_dict={X:train_x, Y:train_y})
+        offset = (step * batch_size) % (train_y.shape[0] - batch_size)
+        batch_data = train_x[offset:(offset + batch_size), :]
+        batch_labels = train_y[offset:(offset + batch_size)]
+        feed_dict = {X: train_x, Y: train_y}
+        _, c = sess.run([optimizer, loss], feed_dict={X:batch_data, Y:batch_labels})
+        print(str(step), ' epoch(s) completed')
+
     print("Optimization Finished!")
+    print("Testing Accuracy:", sess.run(accuracy, feed_dict={X: test_x, Y: test_y}))
