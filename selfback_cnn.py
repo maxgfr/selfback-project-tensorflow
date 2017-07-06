@@ -213,10 +213,10 @@ def conv_net(x, weights, biases):
 
 ##################MAIN##################
 # Parameters
-file = 'data/allDataLight.csv'
+file = 'data/allData.csv'
 learning_rate = 0.01
 batch_size = 500
-training_epochs = 10
+training_epochs = 500
 n_input = 3
 n_height = 1
 n_width = 500
@@ -233,9 +233,9 @@ weights = {
     'wc4': tf.Variable(tf.random_normal([1, 10, 80, 60])),
     # 1x10 conv, 60 input, 40 outputs
     'wc5': tf.Variable(tf.random_normal([1, 10, 60, 40])),
-    # fully connected,  inputs, 900 outputs
-    'wd1': tf.Variable(tf.random_normal([128, 900])),
-    # fully connected,  inputs, 300 outputs
+    # fully connected, 500/2^5 => 15.625 inputs, 900 outputs
+    'wd1': tf.Variable(tf.random_normal([16*1*40, 900])),
+    # fully connected, 900 inputs, 300 outputs
     'wd2': tf.Variable(tf.random_normal([900, 300])),
     # 300 inputs, 6 outputs (class prediction)
     'out': tf.Variable(tf.random_normal([300, n_classes]))
@@ -263,7 +263,7 @@ labels = np.asarray(pd.get_dummies(labels), dtype=np.int8)
 reshaped_data = data.reshape(len(data), n_height, n_width, n_channels)
 
 #Split data to test it
-train_test_split = np.random.rand(len(reshaped_data)) < 0.70
+train_test_split = np.random.rand(len(reshaped_data)) < 0.85
 
 #Create train et test data
 train_x = reshaped_data[train_test_split]
@@ -294,7 +294,7 @@ with tf.Session() as sess:
         offset = (step * batch_size) % (train_y.shape[0] - batch_size)
         batch_data = train_x[offset:(offset + batch_size), :]
         batch_labels = train_y[offset:(offset + batch_size)]
-        feed_dict = {X: train_x, Y: train_y}
+
         _, c = sess.run([optimizer, loss], feed_dict={X:batch_data, Y:batch_labels})
         print(str(step), ' epoch(s) completed')
 
