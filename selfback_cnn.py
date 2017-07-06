@@ -1,8 +1,8 @@
-'''
+"""
 A Convolutional Network for HAR based on : rgu-selfback
 
 Author: Maxime Golfier
-'''
+"""
 
 from __future__ import print_function
 from math import *
@@ -13,6 +13,7 @@ from tensorflow.python.tools import optimize_for_inference_lib
 import tensorflow as tf
 import numpy as np
 import pandas as pd
+import random
 import copy
 import csv
 
@@ -231,7 +232,10 @@ def export_model(input_node_names, output_node_name , model_name):
 
     print("Graph saved!")
 
+########################################
 ##################MAIN##################
+########################################
+
 # Parameters
 file = 'data/allData.csv'
 model_name = 'cnn_wrist500_tf'
@@ -266,25 +270,33 @@ biases = {
 }
 X, Y, keep_prob = placeholder_input(n_height, n_width, n_channels, n_classes)
 
-#Read Data
+# Read Data
 dataset = read_data(file)
 numlines = count_lines(file)
 
-#Create datasets from the file
+# Create datasets from the file
 data, labels = create_datasets(dataset, numlines)
 
-#Reshape data
+# Reshape data
 labels = np.asarray(pd.get_dummies(labels), dtype=np.int8)
 reshaped_data = data.reshape(len(data), n_height, n_width, n_channels)
 
-#Split data to test it
+# Split data to test it
 train_test_split = np.random.rand(len(reshaped_data)) < 0.85
 
-#Create train et test data
+# Create train et test data
 train_x = reshaped_data[train_test_split]
 train_y = labels[train_test_split]
 test_x = reshaped_data[~train_test_split]
 test_y = labels[~train_test_split]
+
+# Shuffle data
+r1 = random.random()
+r2 = random.random()
+random.shuffle(train_x, lambda: r1)
+random.shuffle(train_y, lambda: r1)
+random.shuffle(test_x, lambda: r2)
+random.shuffle(test_y, lambda: r2)
 
 # Construct model
 pred = conv_net(X, weights, biases, keep_prob)
@@ -330,6 +342,7 @@ with tf.Session() as sess:
     saver.save(sess, 'out/' + model_name + '.chkp')
 
     print("Optimization Finished!")
+
     print("Testing Accuracy:", sess.run(accuracy, feed_dict={X: test_x, Y: test_y, keep_prob: 1.0}))
 
     export_model(["input", "keep_prob"], "output", model_name)

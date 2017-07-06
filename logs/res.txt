@@ -1,0 +1,634 @@
+C:\Users\maxime\AppData\Local\Programs\Python\Python35\python.exe C:\Users\maxime\Documents\GitHub\TensorFlowSelfback\selfback_cnn.py
+2017-07-06 16:08:07.441121: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.441523: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.441932: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.442492: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.443069: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.443640: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.444196: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:07.444757: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\platform\cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+2017-07-06 16:08:08.150250: I c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\gpu\gpu_device.cc:940] Found device 0 with properties: 
+name: GeForce 920M
+major: 3 minor: 5 memoryClockRate (GHz) 0.954
+pciBusID 0000:04:00.0
+Total memory: 2.00GiB
+Free memory: 1.67GiB
+2017-07-06 16:08:08.150671: I c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\gpu\gpu_device.cc:961] DMA: 0 
+2017-07-06 16:08:08.151152: I c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\gpu\gpu_device.cc:971] 0:   Y 
+2017-07-06 16:08:08.151506: I c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\gpu\gpu_device.cc:1030] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce 920M, pci bus id: 0000:04:00.0)
+step 0, training accuracy 0.144000
+2017-07-06 16:08:19.950437: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.58GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+2017-07-06 16:08:22.446526: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.07GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+0  epoch(s) completed
+1  epoch(s) completed
+2  epoch(s) completed
+3  epoch(s) completed
+4  epoch(s) completed
+step 5, training accuracy 0.262000
+5  epoch(s) completed
+6  epoch(s) completed
+7  epoch(s) completed
+8  epoch(s) completed
+9  epoch(s) completed
+step 10, training accuracy 1.000000
+10  epoch(s) completed
+11  epoch(s) completed
+12  epoch(s) completed
+13  epoch(s) completed
+14  epoch(s) completed
+step 15, training accuracy 0.390000
+15  epoch(s) completed
+16  epoch(s) completed
+17  epoch(s) completed
+18  epoch(s) completed
+19  epoch(s) completed
+step 20, training accuracy 0.992000
+20  epoch(s) completed
+21  epoch(s) completed
+22  epoch(s) completed
+23  epoch(s) completed
+24  epoch(s) completed
+step 25, training accuracy 0.994000
+25  epoch(s) completed
+26  epoch(s) completed
+27  epoch(s) completed
+28  epoch(s) completed
+29  epoch(s) completed
+step 30, training accuracy 0.930000
+30  epoch(s) completed
+31  epoch(s) completed
+32  epoch(s) completed
+33  epoch(s) completed
+34  epoch(s) completed
+step 35, training accuracy 1.000000
+35  epoch(s) completed
+36  epoch(s) completed
+37  epoch(s) completed
+38  epoch(s) completed
+39  epoch(s) completed
+step 40, training accuracy 0.864000
+40  epoch(s) completed
+41  epoch(s) completed
+42  epoch(s) completed
+43  epoch(s) completed
+44  epoch(s) completed
+step 45, training accuracy 0.988000
+45  epoch(s) completed
+46  epoch(s) completed
+47  epoch(s) completed
+48  epoch(s) completed
+49  epoch(s) completed
+step 50, training accuracy 0.988000
+50  epoch(s) completed
+51  epoch(s) completed
+52  epoch(s) completed
+53  epoch(s) completed
+54  epoch(s) completed
+step 55, training accuracy 0.858000
+55  epoch(s) completed
+56  epoch(s) completed
+57  epoch(s) completed
+58  epoch(s) completed
+59  epoch(s) completed
+step 60, training accuracy 1.000000
+60  epoch(s) completed
+61  epoch(s) completed
+62  epoch(s) completed
+63  epoch(s) completed
+64  epoch(s) completed
+step 65, training accuracy 0.770000
+65  epoch(s) completed
+66  epoch(s) completed
+67  epoch(s) completed
+68  epoch(s) completed
+69  epoch(s) completed
+step 70, training accuracy 0.988000
+70  epoch(s) completed
+71  epoch(s) completed
+72  epoch(s) completed
+73  epoch(s) completed
+74  epoch(s) completed
+step 75, training accuracy 1.000000
+75  epoch(s) completed
+76  epoch(s) completed
+77  epoch(s) completed
+78  epoch(s) completed
+79  epoch(s) completed
+step 80, training accuracy 0.944000
+80  epoch(s) completed
+81  epoch(s) completed
+82  epoch(s) completed
+83  epoch(s) completed
+84  epoch(s) completed
+step 85, training accuracy 1.000000
+85  epoch(s) completed
+86  epoch(s) completed
+87  epoch(s) completed
+88  epoch(s) completed
+89  epoch(s) completed
+step 90, training accuracy 0.842000
+90  epoch(s) completed
+91  epoch(s) completed
+92  epoch(s) completed
+93  epoch(s) completed
+94  epoch(s) completed
+step 95, training accuracy 1.000000
+95  epoch(s) completed
+96  epoch(s) completed
+97  epoch(s) completed
+98  epoch(s) completed
+99  epoch(s) completed
+step 100, training accuracy 1.000000
+100  epoch(s) completed
+101  epoch(s) completed
+102  epoch(s) completed
+103  epoch(s) completed
+104  epoch(s) completed
+step 105, training accuracy 0.808000
+105  epoch(s) completed
+106  epoch(s) completed
+107  epoch(s) completed
+108  epoch(s) completed
+109  epoch(s) completed
+step 110, training accuracy 0.980000
+110  epoch(s) completed
+111  epoch(s) completed
+112  epoch(s) completed
+113  epoch(s) completed
+114  epoch(s) completed
+step 115, training accuracy 0.974000
+115  epoch(s) completed
+116  epoch(s) completed
+117  epoch(s) completed
+118  epoch(s) completed
+119  epoch(s) completed
+step 120, training accuracy 0.988000
+120  epoch(s) completed
+121  epoch(s) completed
+122  epoch(s) completed
+123  epoch(s) completed
+124  epoch(s) completed
+step 125, training accuracy 0.988000
+125  epoch(s) completed
+126  epoch(s) completed
+127  epoch(s) completed
+128  epoch(s) completed
+129  epoch(s) completed
+step 130, training accuracy 0.960000
+130  epoch(s) completed
+131  epoch(s) completed
+132  epoch(s) completed
+133  epoch(s) completed
+134  epoch(s) completed
+step 135, training accuracy 0.988000
+135  epoch(s) completed
+136  epoch(s) completed
+137  epoch(s) completed
+138  epoch(s) completed
+139  epoch(s) completed
+step 140, training accuracy 0.988000
+140  epoch(s) completed
+141  epoch(s) completed
+142  epoch(s) completed
+143  epoch(s) completed
+144  epoch(s) completed
+step 145, training accuracy 0.890000
+145  epoch(s) completed
+146  epoch(s) completed
+147  epoch(s) completed
+148  epoch(s) completed
+149  epoch(s) completed
+step 150, training accuracy 0.994000
+150  epoch(s) completed
+151  epoch(s) completed
+152  epoch(s) completed
+153  epoch(s) completed
+154  epoch(s) completed
+step 155, training accuracy 0.918000
+155  epoch(s) completed
+156  epoch(s) completed
+157  epoch(s) completed
+158  epoch(s) completed
+159  epoch(s) completed
+step 160, training accuracy 0.988000
+160  epoch(s) completed
+161  epoch(s) completed
+162  epoch(s) completed
+163  epoch(s) completed
+164  epoch(s) completed
+step 165, training accuracy 0.994000
+165  epoch(s) completed
+166  epoch(s) completed
+167  epoch(s) completed
+168  epoch(s) completed
+169  epoch(s) completed
+step 170, training accuracy 0.912000
+170  epoch(s) completed
+171  epoch(s) completed
+172  epoch(s) completed
+173  epoch(s) completed
+174  epoch(s) completed
+step 175, training accuracy 0.994000
+175  epoch(s) completed
+176  epoch(s) completed
+177  epoch(s) completed
+178  epoch(s) completed
+179  epoch(s) completed
+step 180, training accuracy 0.880000
+180  epoch(s) completed
+181  epoch(s) completed
+182  epoch(s) completed
+183  epoch(s) completed
+184  epoch(s) completed
+step 185, training accuracy 1.000000
+185  epoch(s) completed
+186  epoch(s) completed
+187  epoch(s) completed
+188  epoch(s) completed
+189  epoch(s) completed
+step 190, training accuracy 1.000000
+190  epoch(s) completed
+191  epoch(s) completed
+192  epoch(s) completed
+193  epoch(s) completed
+194  epoch(s) completed
+step 195, training accuracy 0.814000
+195  epoch(s) completed
+196  epoch(s) completed
+197  epoch(s) completed
+198  epoch(s) completed
+199  epoch(s) completed
+step 200, training accuracy 0.980000
+200  epoch(s) completed
+201  epoch(s) completed
+202  epoch(s) completed
+203  epoch(s) completed
+204  epoch(s) completed
+step 205, training accuracy 0.974000
+205  epoch(s) completed
+206  epoch(s) completed
+207  epoch(s) completed
+208  epoch(s) completed
+209  epoch(s) completed
+step 210, training accuracy 0.988000
+210  epoch(s) completed
+211  epoch(s) completed
+212  epoch(s) completed
+213  epoch(s) completed
+214  epoch(s) completed
+step 215, training accuracy 0.988000
+215  epoch(s) completed
+216  epoch(s) completed
+217  epoch(s) completed
+218  epoch(s) completed
+219  epoch(s) completed
+step 220, training accuracy 0.886000
+220  epoch(s) completed
+221  epoch(s) completed
+222  epoch(s) completed
+223  epoch(s) completed
+224  epoch(s) completed
+step 225, training accuracy 0.968000
+225  epoch(s) completed
+226  epoch(s) completed
+227  epoch(s) completed
+228  epoch(s) completed
+229  epoch(s) completed
+step 230, training accuracy 0.970000
+230  epoch(s) completed
+231  epoch(s) completed
+232  epoch(s) completed
+233  epoch(s) completed
+234  epoch(s) completed
+step 235, training accuracy 0.890000
+235  epoch(s) completed
+236  epoch(s) completed
+237  epoch(s) completed
+238  epoch(s) completed
+239  epoch(s) completed
+step 240, training accuracy 0.994000
+240  epoch(s) completed
+241  epoch(s) completed
+242  epoch(s) completed
+243  epoch(s) completed
+244  epoch(s) completed
+step 245, training accuracy 0.928000
+245  epoch(s) completed
+246  epoch(s) completed
+247  epoch(s) completed
+248  epoch(s) completed
+249  epoch(s) completed
+step 250, training accuracy 0.976000
+250  epoch(s) completed
+251  epoch(s) completed
+252  epoch(s) completed
+253  epoch(s) completed
+254  epoch(s) completed
+step 255, training accuracy 0.994000
+255  epoch(s) completed
+256  epoch(s) completed
+257  epoch(s) completed
+258  epoch(s) completed
+259  epoch(s) completed
+step 260, training accuracy 0.908000
+260  epoch(s) completed
+261  epoch(s) completed
+262  epoch(s) completed
+263  epoch(s) completed
+264  epoch(s) completed
+step 265, training accuracy 1.000000
+265  epoch(s) completed
+266  epoch(s) completed
+267  epoch(s) completed
+268  epoch(s) completed
+269  epoch(s) completed
+step 270, training accuracy 0.854000
+270  epoch(s) completed
+271  epoch(s) completed
+272  epoch(s) completed
+273  epoch(s) completed
+274  epoch(s) completed
+step 275, training accuracy 0.988000
+275  epoch(s) completed
+276  epoch(s) completed
+277  epoch(s) completed
+278  epoch(s) completed
+279  epoch(s) completed
+step 280, training accuracy 1.000000
+280  epoch(s) completed
+281  epoch(s) completed
+282  epoch(s) completed
+283  epoch(s) completed
+284  epoch(s) completed
+step 285, training accuracy 0.812000
+285  epoch(s) completed
+286  epoch(s) completed
+287  epoch(s) completed
+288  epoch(s) completed
+289  epoch(s) completed
+step 290, training accuracy 0.980000
+290  epoch(s) completed
+291  epoch(s) completed
+292  epoch(s) completed
+293  epoch(s) completed
+294  epoch(s) completed
+step 295, training accuracy 0.974000
+295  epoch(s) completed
+296  epoch(s) completed
+297  epoch(s) completed
+298  epoch(s) completed
+299  epoch(s) completed
+step 300, training accuracy 0.994000
+300  epoch(s) completed
+301  epoch(s) completed
+302  epoch(s) completed
+303  epoch(s) completed
+304  epoch(s) completed
+step 305, training accuracy 0.994000
+305  epoch(s) completed
+306  epoch(s) completed
+307  epoch(s) completed
+308  epoch(s) completed
+309  epoch(s) completed
+step 310, training accuracy 0.828000
+310  epoch(s) completed
+311  epoch(s) completed
+312  epoch(s) completed
+313  epoch(s) completed
+314  epoch(s) completed
+step 315, training accuracy 0.968000
+315  epoch(s) completed
+316  epoch(s) completed
+317  epoch(s) completed
+318  epoch(s) completed
+319  epoch(s) completed
+step 320, training accuracy 0.970000
+320  epoch(s) completed
+321  epoch(s) completed
+322  epoch(s) completed
+323  epoch(s) completed
+324  epoch(s) completed
+step 325, training accuracy 0.928000
+325  epoch(s) completed
+326  epoch(s) completed
+327  epoch(s) completed
+328  epoch(s) completed
+329  epoch(s) completed
+step 330, training accuracy 0.994000
+330  epoch(s) completed
+331  epoch(s) completed
+332  epoch(s) completed
+333  epoch(s) completed
+334  epoch(s) completed
+step 335, training accuracy 0.908000
+335  epoch(s) completed
+336  epoch(s) completed
+337  epoch(s) completed
+338  epoch(s) completed
+339  epoch(s) completed
+step 340, training accuracy 0.976000
+340  epoch(s) completed
+341  epoch(s) completed
+342  epoch(s) completed
+343  epoch(s) completed
+344  epoch(s) completed
+step 345, training accuracy 0.988000
+345  epoch(s) completed
+346  epoch(s) completed
+347  epoch(s) completed
+348  epoch(s) completed
+349  epoch(s) completed
+step 350, training accuracy 0.904000
+350  epoch(s) completed
+351  epoch(s) completed
+352  epoch(s) completed
+353  epoch(s) completed
+354  epoch(s) completed
+step 355, training accuracy 1.000000
+355  epoch(s) completed
+356  epoch(s) completed
+357  epoch(s) completed
+358  epoch(s) completed
+359  epoch(s) completed
+step 360, training accuracy 0.804000
+360  epoch(s) completed
+361  epoch(s) completed
+362  epoch(s) completed
+363  epoch(s) completed
+364  epoch(s) completed
+step 365, training accuracy 0.988000
+365  epoch(s) completed
+366  epoch(s) completed
+367  epoch(s) completed
+368  epoch(s) completed
+369  epoch(s) completed
+step 370, training accuracy 1.000000
+370  epoch(s) completed
+371  epoch(s) completed
+372  epoch(s) completed
+373  epoch(s) completed
+374  epoch(s) completed
+step 375, training accuracy 0.818000
+375  epoch(s) completed
+376  epoch(s) completed
+377  epoch(s) completed
+378  epoch(s) completed
+379  epoch(s) completed
+step 380, training accuracy 1.000000
+380  epoch(s) completed
+381  epoch(s) completed
+382  epoch(s) completed
+383  epoch(s) completed
+384  epoch(s) completed
+step 385, training accuracy 0.994000
+385  epoch(s) completed
+386  epoch(s) completed
+387  epoch(s) completed
+388  epoch(s) completed
+389  epoch(s) completed
+step 390, training accuracy 0.994000
+390  epoch(s) completed
+391  epoch(s) completed
+392  epoch(s) completed
+393  epoch(s) completed
+394  epoch(s) completed
+step 395, training accuracy 0.994000
+395  epoch(s) completed
+396  epoch(s) completed
+397  epoch(s) completed
+398  epoch(s) completed
+399  epoch(s) completed
+step 400, training accuracy 0.802000
+400  epoch(s) completed
+401  epoch(s) completed
+402  epoch(s) completed
+403  epoch(s) completed
+404  epoch(s) completed
+step 405, training accuracy 0.980000
+405  epoch(s) completed
+406  epoch(s) completed
+407  epoch(s) completed
+408  epoch(s) completed
+409  epoch(s) completed
+step 410, training accuracy 0.970000
+410  epoch(s) completed
+411  epoch(s) completed
+412  epoch(s) completed
+413  epoch(s) completed
+414  epoch(s) completed
+step 415, training accuracy 0.924000
+415  epoch(s) completed
+416  epoch(s) completed
+417  epoch(s) completed
+418  epoch(s) completed
+419  epoch(s) completed
+step 420, training accuracy 0.988000
+420  epoch(s) completed
+421  epoch(s) completed
+422  epoch(s) completed
+423  epoch(s) completed
+424  epoch(s) completed
+step 425, training accuracy 0.928000
+425  epoch(s) completed
+426  epoch(s) completed
+427  epoch(s) completed
+428  epoch(s) completed
+429  epoch(s) completed
+step 430, training accuracy 0.976000
+430  epoch(s) completed
+431  epoch(s) completed
+432  epoch(s) completed
+433  epoch(s) completed
+434  epoch(s) completed
+step 435, training accuracy 0.988000
+435  epoch(s) completed
+436  epoch(s) completed
+437  epoch(s) completed
+438  epoch(s) completed
+439  epoch(s) completed
+step 440, training accuracy 0.872000
+440  epoch(s) completed
+441  epoch(s) completed
+442  epoch(s) completed
+443  epoch(s) completed
+444  epoch(s) completed
+step 445, training accuracy 1.000000
+445  epoch(s) completed
+446  epoch(s) completed
+447  epoch(s) completed
+448  epoch(s) completed
+449  epoch(s) completed
+step 450, training accuracy 0.830000
+450  epoch(s) completed
+451  epoch(s) completed
+452  epoch(s) completed
+453  epoch(s) completed
+454  epoch(s) completed
+step 455, training accuracy 0.988000
+455  epoch(s) completed
+456  epoch(s) completed
+457  epoch(s) completed
+458  epoch(s) completed
+459  epoch(s) completed
+step 460, training accuracy 1.000000
+460  epoch(s) completed
+461  epoch(s) completed
+462  epoch(s) completed
+463  epoch(s) completed
+464  epoch(s) completed
+step 465, training accuracy 0.932000
+465  epoch(s) completed
+466  epoch(s) completed
+467  epoch(s) completed
+468  epoch(s) completed
+469  epoch(s) completed
+step 470, training accuracy 1.000000
+470  epoch(s) completed
+471  epoch(s) completed
+472  epoch(s) completed
+473  epoch(s) completed
+474  epoch(s) completed
+step 475, training accuracy 0.994000
+475  epoch(s) completed
+476  epoch(s) completed
+477  epoch(s) completed
+478  epoch(s) completed
+479  epoch(s) completed
+step 480, training accuracy 0.994000
+480  epoch(s) completed
+481  epoch(s) completed
+482  epoch(s) completed
+483  epoch(s) completed
+484  epoch(s) completed
+step 485, training accuracy 0.994000
+485  epoch(s) completed
+486  epoch(s) completed
+487  epoch(s) completed
+488  epoch(s) completed
+489  epoch(s) completed
+step 490, training accuracy 0.810000
+490  epoch(s) completed
+491  epoch(s) completed
+492  epoch(s) completed
+493  epoch(s) completed
+494  epoch(s) completed
+step 495, training accuracy 0.980000
+495  epoch(s) completed
+496  epoch(s) completed
+497  epoch(s) completed
+498  epoch(s) completed
+499  epoch(s) completed
+Optimization Finished!
+2017-07-06 16:24:00.302424: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.48GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+2017-07-06 16:24:01.747914: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.67GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+2017-07-06 16:24:01.748561: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.48GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+2017-07-06 16:24:02.954424: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.77GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+2017-07-06 16:24:03.271999: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 1.37GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+2017-07-06 16:24:03.379678: W c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\bfc_allocator.cc:217] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.33GiB. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory is available.
+Testing Accuracy: 0.963987
+2017-07-06 16:24:05.219072: I c:\tf_jenkins\home\workspace\release-win\m\windows-gpu\py\35\tensorflow\core\common_runtime\gpu\gpu_device.cc:1030] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce 920M, pci bus id: 0000:04:00.0)
+Converted 16 variables to const ops.
+76 ops in the final graph.
+Graph saved!
+
+Process finished with exit code 0
