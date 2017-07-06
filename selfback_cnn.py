@@ -7,6 +7,8 @@ Author: Maxime Golfier
 from __future__ import print_function
 from math import *
 from scipy import stats
+from tensorflow.python.tools import freeze_graph
+from tensorflow.python.tools import optimize_for_inference_lib
 
 import tensorflow as tf
 import numpy as np
@@ -61,7 +63,7 @@ def count_lines(path):
         reader = csv.reader(f,delimiter = ",")
         data = list(reader)
         row_count = len(data)
-    return row_count
+    return int(row_count)
 
 def read_one_csv(name):
     data = np.genfromtxt(name, delimiter=',', skip_header=1)
@@ -132,11 +134,6 @@ def format_data_label(all_data, all_label,all_line):
             res2.append(500*label)
     return res1, res2
 
-def placeholder_input(input_height, input_width, num_channels,  num_class):
-    x = tf.placeholder(tf.float32, [None, input_height, input_width, num_channels])
-    y = tf.placeholder(tf.float32, [None, num_class])
-    return x, y
-
 def read_data(file_path):
     column_names = ['x-axis', 'y-axis', 'z-axis', 'activity']
     data = pd.read_csv(file_path, header=1, names=column_names)
@@ -168,30 +165,28 @@ def maxpool2d(x, k=2):
     return tf.nn.max_pool(x, ksize=[1, k, k, 1], strides=[1, k, k, 1],
                           padding='SAME')
 
-def conv_net(x, weights, biases):
-    # Reshape input
-    x = tf.reshape(x, shape=[-1, 1, 500, 3])
-    # Convolution Layer
+def conv_net(x, weights, biases, keep_prob):
+    # Convolution Layer 1
     conv1 = conv2d(x, weights['wc1'], biases['bc1'])
     # Max Pooling (down-sampling)
     conv1 = maxpool2d(conv1)
 
-    # Convolution Layer
+    # Convolution Layer 2
     conv2 = conv2d(conv1, weights['wc2'], biases['bc2'])
     # Max Pooling (down-sampling)
     conv2 = maxpool2d(conv2)
 
-    # Convolution Layer
+    # Convolution Layer 3
     conv3 = conv2d(conv2, weights['wc3'], biases['bc3'])
     # Max Pooling (down-sampling)
     conv3 = maxpool2d(conv3)
 
-    # Convolution Layer
+    # Convolution Layer 4
     conv4 = conv2d(conv3, weights['wc4'], biases['bc4'])
     # Max Pooling (down-sampling)
     conv4 = maxpool2d(conv4)
 
-    # Convolution Layer
+    # Convolution Layer 5
     conv5 = conv2d(conv4, weights['wc5'], biases['bc5'])
     # Max Pooling (down-sampling)
     conv5 = maxpool2d(conv5)
@@ -199,29 +194,55 @@ def conv_net(x, weights, biases):
     # Fully connected layer 1
     # Reshape conv5 output to fit fully connected layer input
     fc1 = tf.reshape(conv5, [-1, weights['wd1'].get_shape().as_list()[0]])
-    fc1 = tf.add(tf.matmul(fc1, weights['wd1']), biases['bd1'])
-    fc1 = tf.nn.tanh(fc1)
+    dense1 = tf.layers.dense(inputs=fc1, units=900, activation=tf.nn.tanh)
 
-    # Fully connected layer 2 with activation tanh
-    fc2 = tf.add(tf.matmul(fc1, weights['wd2']), biases['bd2'])
-    fc2 = tf.nn.tanh(fc2)
-    fc2 = tf.nn.dropout(fc2, keep_prob=0.5)
+    # Fully connected layer 2
+    dense2 = tf.layers.dense(dense1, units=300, activation=tf.nn.tanh)
+    dropout = tf.layers.dropout(inputs=dense2, rate=0.5)
+
+    # Logits Layer
+    logits = tf.layers.dense(inputs=dropout, units=6)
 
     # Output, class prediction
-    out = tf.add(tf.matmul(fc2, weights['out']), biases['out'])
+    out = tf.nn.softmax(logits, name='output')
     return out
+
+def placeholder_input(input_height, input_width, num_channels,  num_class):
+    x = tf.placeholder(tf.float32, [None, input_height, input_width, num_channels], name='input')
+    y = tf.placeholder(tf.float32, [None, num_class], name='output')
+    keep_prob = tf.placeholder(tf.float32, name='keep_prob')
+    return x, y, keep_prob
+
+def export_model(input_node_names, output_node_name , model_name):
+    freeze_graph.freeze_graph('out/' + model_name + '.pbtxt', None, False,
+                              'out/' + model_name + '.chkp', output_node_name, "save/restore_all",
+                              "save/Const:0", 'out/frozen_' + model_name + '.pb', True, "")
+
+    input_graph_def = tf.GraphDef()
+    with tf.gfile.Open('out/frozen_' + model_name + '.pb', "rb") as f:
+        input_graph_def.ParseFromString(f.read())
+
+    output_graph_def = optimize_for_inference_lib.optimize_for_inference(
+        input_graph_def, input_node_names, [output_node_name],
+        tf.float32.as_datatype_enum)
+
+    with tf.gfile.FastGFile('out/opt_' + model_name + '.pb', "wb") as f:
+        f.write(output_graph_def.SerializeToString())
+
+    print("Graph saved!")
 
 ##################MAIN##################
 # Parameters
-file = 'data/allData.csv'
+file = 'data/allDataLight.csv'
+model_name = 'cnn_wrist500_tf'
+training_epochs = 10
 learning_rate = 0.01
-batch_size = 500
-training_epochs = 500
 n_input = 3
 n_height = 1
 n_width = 500
 n_channels = 3
 n_classes = 6
+batch_size = 500
 weights = {
     # 1x10 conv, 3 input, 150 outputs
     'wc1': tf.Variable(tf.random_normal([1, 10, 3, 150])),
@@ -234,24 +255,18 @@ weights = {
     # 1x10 conv, 60 input, 40 outputs
     'wc5': tf.Variable(tf.random_normal([1, 10, 60, 40])),
     # fully connected, 500/2^5 => 15.625 inputs, 900 outputs
-    'wd1': tf.Variable(tf.random_normal([16*1*40, 900])),
-    # fully connected, 900 inputs, 300 outputs
-    'wd2': tf.Variable(tf.random_normal([900, 300])),
-    # 300 inputs, 6 outputs (class prediction)
-    'out': tf.Variable(tf.random_normal([300, n_classes]))
+    'wd1': tf.Variable(tf.random_normal([16*1*40, 900]))
 }
 biases = {
     'bc1': tf.Variable(tf.random_normal([150])),
     'bc2': tf.Variable(tf.random_normal([100])),
     'bc3': tf.Variable(tf.random_normal([80])),
     'bc4': tf.Variable(tf.random_normal([60])),
-    'bc5': tf.Variable(tf.random_normal([40])),
-    'bd1': tf.Variable(tf.random_normal([900])),
-    'bd2': tf.Variable(tf.random_normal([300])),
-    'out': tf.Variable(tf.random_normal([n_classes]))
+    'bc5': tf.Variable(tf.random_normal([40]))
 }
-X, Y = placeholder_input(n_height, n_width, n_channels, n_classes)
+X, Y, keep_prob = placeholder_input(n_height, n_width, n_channels, n_classes)
 
+#Read Data
 dataset = read_data(file)
 numlines = count_lines(file)
 
@@ -272,7 +287,7 @@ test_x = reshaped_data[~train_test_split]
 test_y = labels[~train_test_split]
 
 # Construct model
-pred = conv_net(X, weights, biases)
+pred = conv_net(X, weights, biases, keep_prob)
 
 # Define loss and optimizer
 loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=Y))
@@ -285,18 +300,38 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 # Initializing the variables
 init = tf.global_variables_initializer()
 
+saver = tf.train.Saver()
+
 # Launch the graph
 with tf.Session() as sess:
     sess.run(init)
 
+    tf.train.write_graph(sess.graph_def, 'out',
+                         model_name + '.pbtxt', True)
+
     # Keep training until reach max iterations
     for step in range(training_epochs):
+
         offset = (step * batch_size) % (train_y.shape[0] - batch_size)
         batch_data = train_x[offset:(offset + batch_size), :]
         batch_labels = train_y[offset:(offset + batch_size)]
 
-        _, c = sess.run([optimizer, loss], feed_dict={X:batch_data, Y:batch_labels})
+        #make evaluation of the accuracy each 5 epochs
+        if step % 5 == 0:
+            train_accuracy = accuracy.eval(feed_dict={
+                X: batch_data, Y: batch_labels, keep_prob: 1.0})
+            print('step %d, training accuracy %f' % (step, train_accuracy))
+
+        _, summary = sess.run([optimizer, loss], feed_dict={X: batch_data, Y: batch_labels, keep_prob: 0.5})
+
         print(str(step), ' epoch(s) completed')
 
+    saver.save(sess, 'out/' + model_name + '.chkp')
+
     print("Optimization Finished!")
-    print("Testing Accuracy:", sess.run(accuracy, feed_dict={X: test_x, Y: test_y}))
+    print("Testing Accuracy:", sess.run(accuracy, feed_dict={X: test_x, Y: test_y, keep_prob: 1.0}))
+
+    export_model(["input", "keep_prob"], "output", model_name)
+
+
+
