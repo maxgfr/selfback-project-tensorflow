@@ -198,7 +198,7 @@ def conv_net(x, weights, biases, keep_prob):
 
     # Fully connected layer 2
     dense2 = tf.layers.dense(dense1, units=300, activation=tf.nn.tanh)
-    dropout = tf.layers.dropout(inputs=dense2, rate=0.5)
+    dropout = tf.nn.dropout(dense2, keep_prob)
 
     # Logits Layer
     logits = tf.layers.dense(inputs=dropout, units=6)
@@ -209,7 +209,7 @@ def conv_net(x, weights, biases, keep_prob):
 
 def placeholder_input(input_height, input_width, num_channels,  num_class):
     x = tf.placeholder(tf.float32, [None, input_height, input_width, num_channels], name='input')
-    y = tf.placeholder(tf.float32, [None, num_class], name='output')
+    y = tf.placeholder(tf.float32, [None, num_class])
     keep_prob = tf.placeholder(tf.float32, name='keep_prob')
     return x, y, keep_prob
 
@@ -233,9 +233,9 @@ def export_model(input_node_names, output_node_name , model_name):
 
 ##################MAIN##################
 # Parameters
-file = 'data/allDataLight.csv'
+file = 'data/allData.csv'
 model_name = 'cnn_wrist500_tf'
-training_epochs = 10
+training_epochs = 500
 learning_rate = 0.01
 n_input = 3
 n_height = 1
@@ -300,6 +300,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 # Initializing the variables
 init = tf.global_variables_initializer()
 
+# In order to save model
 saver = tf.train.Saver()
 
 # Launch the graph
@@ -316,7 +317,7 @@ with tf.Session() as sess:
         batch_data = train_x[offset:(offset + batch_size), :]
         batch_labels = train_y[offset:(offset + batch_size)]
 
-        #make evaluation of the accuracy each 5 epochs
+        # Make evaluation of the accuracy each 5 epochs
         if step % 5 == 0:
             train_accuracy = accuracy.eval(feed_dict={
                 X: batch_data, Y: batch_labels, keep_prob: 1.0})

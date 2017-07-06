@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="87114027-f1fc-4393-a159-24486835a02d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/selfback_cnn.py" afterPath="$PROJECT_DIR$/selfback_cnn.py" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -19,8 +18,8 @@
       <file leaf-file-name="selfback_cnn.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/selfback_cnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+            <state relative-caret-position="176">
+              <caret line="315" column="29" lean-forward="false" selection-start-line="315" selection-start-column="29" selection-end-line="315" selection-end-column="29" />
               <folding>
                 <element signature="e#89#126#0" expanded="true" />
                 <element signature="e#424#712#0" expanded="false" />
@@ -35,39 +34,12 @@
                 <element signature="e#4546#5032#0" expanded="false" />
                 <element signature="e#5093#5219#0" expanded="false" />
                 <element signature="e#5248#5356#0" expanded="false" />
-                <element signature="e#8111#8723#0" expanded="false" />
-                <element signature="e#8733#8977#0" expanded="false" />
+                <element signature="e#5407#6692#0" expanded="false" />
+                <element signature="e#6774#7009#0" expanded="false" />
+                <element signature="e#7082#7831#0" expanded="false" />
+                <element signature="e#8082#8694#0" expanded="false" />
+                <element signature="e#8704#8948#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="math_ops.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tensorflow/python/ops/math_ops.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="1666" column="4" lean-forward="false" selection-start-line="1666" selection-start-column="4" selection-end-line="1666" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="core.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tensorflow/python/layers/core.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="214" column="0" lean-forward="false" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tensorflow/python/layers/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="491" column="0" lean-forward="false" selection-start-line="491" selection-start-column="0" selection-end-line="491" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -633,7 +605,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="19" />
+      <option name="time" value="20" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -642,54 +614,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/selfback_cnn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#89#126#0" expanded="true" />
-            <element signature="e#424#712#0" expanded="false" />
-            <element signature="e#748#1715#0" expanded="false" />
-            <element signature="e#1744#1900#0" expanded="false" />
-            <element signature="e#1930#2002#0" expanded="false" />
-            <element signature="e#2062#2815#0" expanded="false" />
-            <element signature="e#2854#3478#0" expanded="false" />
-            <element signature="e#3530#3814#0" expanded="false" />
-            <element signature="e#3873#4325#0" expanded="false" />
-            <element signature="e#4357#4494#0" expanded="false" />
-            <element signature="e#4546#5032#0" expanded="false" />
-            <element signature="e#5093#5219#0" expanded="false" />
-            <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/selfback_cnn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#89#126#0" expanded="true" />
-            <element signature="e#424#712#0" expanded="false" />
-            <element signature="e#748#1715#0" expanded="false" />
-            <element signature="e#1744#1900#0" expanded="false" />
-            <element signature="e#1930#2002#0" expanded="false" />
-            <element signature="e#2062#2815#0" expanded="false" />
-            <element signature="e#2854#3478#0" expanded="false" />
-            <element signature="e#3530#3814#0" expanded="false" />
-            <element signature="e#3873#4325#0" expanded="false" />
-            <element signature="e#4357#4494#0" expanded="false" />
-            <element signature="e#4546#5032#0" expanded="false" />
-            <element signature="e#5093#5219#0" expanded="false" />
-            <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/datasets_utils.py" />
     <entry file="file://$PROJECT_DIR$/selfback_cnn.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -709,8 +633,11 @@
             <element signature="e#4546#5032#0" expanded="false" />
             <element signature="e#5093#5219#0" expanded="false" />
             <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
+            <element signature="e#5407#6692#0" expanded="false" />
+            <element signature="e#6774#7009#0" expanded="false" />
+            <element signature="e#7082#7831#0" expanded="false" />
+            <element signature="e#8082#8694#0" expanded="false" />
+            <element signature="e#8704#8948#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -734,8 +661,11 @@
             <element signature="e#4546#5032#0" expanded="false" />
             <element signature="e#5093#5219#0" expanded="false" />
             <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
+            <element signature="e#5407#6692#0" expanded="false" />
+            <element signature="e#6774#7009#0" expanded="false" />
+            <element signature="e#7082#7831#0" expanded="false" />
+            <element signature="e#8082#8694#0" expanded="false" />
+            <element signature="e#8704#8948#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -759,8 +689,11 @@
             <element signature="e#4546#5032#0" expanded="false" />
             <element signature="e#5093#5219#0" expanded="false" />
             <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
+            <element signature="e#5407#6692#0" expanded="false" />
+            <element signature="e#6774#7009#0" expanded="false" />
+            <element signature="e#7082#7831#0" expanded="false" />
+            <element signature="e#8082#8694#0" expanded="false" />
+            <element signature="e#8704#8948#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -783,8 +716,11 @@
             <element signature="e#4546#5032#0" expanded="false" />
             <element signature="e#5093#5219#0" expanded="false" />
             <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
+            <element signature="e#5407#6692#0" expanded="false" />
+            <element signature="e#6774#7009#0" expanded="false" />
+            <element signature="e#7082#7831#0" expanded="false" />
+            <element signature="e#8082#8694#0" expanded="false" />
+            <element signature="e#8704#8948#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1037,10 +973,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tensorflow/python/ops/nn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/site-packages/tensorflow/python/layers/layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-375">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/selfback_cnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+        <state relative-caret-position="176">
+          <caret line="315" column="29" lean-forward="false" selection-start-line="315" selection-start-column="29" selection-end-line="315" selection-end-column="29" />
           <folding>
             <element signature="e#89#126#0" expanded="true" />
             <element signature="e#424#712#0" expanded="false" />
@@ -1055,8 +1007,11 @@
             <element signature="e#4546#5032#0" expanded="false" />
             <element signature="e#5093#5219#0" expanded="false" />
             <element signature="e#5248#5356#0" expanded="false" />
-            <element signature="e#8111#8723#0" expanded="false" />
-            <element signature="e#8733#8977#0" expanded="false" />
+            <element signature="e#5407#6692#0" expanded="false" />
+            <element signature="e#6774#7009#0" expanded="false" />
+            <element signature="e#7082#7831#0" expanded="false" />
+            <element signature="e#8082#8694#0" expanded="false" />
+            <element signature="e#8704#8948#0" expanded="false" />
           </folding>
         </state>
       </provider>
