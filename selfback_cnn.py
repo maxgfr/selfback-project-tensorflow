@@ -237,7 +237,7 @@ def export_model(input_node_names, output_node_name , model_name):
 ########################################
 
 # Parameters
-file = 'data/allData.csv'
+file = 'data/allDataLight.csv'
 model_name = 'cnn_wrist500_tf'
 training_epochs = 500
 learning_rate = 0.01
