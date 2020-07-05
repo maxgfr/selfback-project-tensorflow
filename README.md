@@ -1,4 +1,5 @@
-# TensorFlowSelfback
+# selfback-project-tensorflow
+
 Reproduction of CNN of selfback project
 
 - 500 epochs 
